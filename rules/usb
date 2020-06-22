@@ -1,0 +1,19 @@
+# vim: filetype=sh:
+
+USB_UAS=y
+
+# better touchpad experience
+RMI4_CORE=y
+RMI4_SMB=y
+
+# unused drivers
+RMI4_I2C=n
+RMI4_F03=n
+RMI4_F11=n
+RMI4_F12=n
+RMI4_F30=n
+RMI4_F34=n
+RMI4_F55=n
+
+USB_EHCI_HCD=n
+USB_OHCI_HCD=n

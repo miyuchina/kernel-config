@@ -1,0 +1,37 @@
+# vim: filetype=sh:
+
+# enable bluetooth subsystem
+BT=m
+BT_BREDR=y
+BT_RFCOMM=y
+BT_HS=y
+BT_LE=y
+BT_HIDP=y
+BT_HCIBTUSB=m
+BT_HCIBTUSB_AUTOSUSPEND=y
+BT_HCIBTUSB_BCM=y
+BT_HCIBTUSB_RTL=y
+
+# userspace I/O driver support for HID
+UHID=y
+
+BT_RFCOMM_TTY=n
+BT_BNEP=n
+BT_LEDS=n
+BT_MSFTEXT=n
+BT_DEBUGFS=n
+BT_SELFTEST=n
+BT_FEATURE_DEBUG=n
+
+# disable unused drivers
+BT_HCIBTUSB_MTK=n
+BT_HCIUART=n
+BT_HCIBCM203X=n
+BT_HCIBPA10X=n
+BT_HCIBFUSB=n
+BT_HCIDTL1=n
+BT_HCIBT3C=n
+BT_HCIBLUECARD=n
+BT_HCIVHCI=n
+BT_MRVL=n
+BT_ATH3K=n

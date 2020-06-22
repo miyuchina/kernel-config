@@ -1,0 +1,44 @@
+# vim: filetype=sh:
+
+# base options; see https://github.com/gg7/gentoo-kernel-guide
+
+# processor family: Core 2 / newer Xeon
+MCORE2=y
+GENERIC_CPU=n
+
+# /proc/config.gz
+IKCONFIG=y
+IKCONFIG_PROC=y
+
+# kernel compression
+KERNEL_GZIP=n
+KERNEL_LZ4=y
+
+# hugepage support
+TRANSPARENT_HUGEPAGE=y
+TRANSPARENT_HUGEPAGE_ALWAYS=y
+TRANSPARENT_HUGEPAGE_MADVISE=n
+# read-only transparent hugepage for filesystems
+READ_ONLY_THP_FOR_FS=n
+
+# sensors
+I2C_CHARDEV=y
+
+# power allocator thermal governor
+THERMAL_GOV_POWER_ALLOCATOR=y
+THERMAL_DEFAULT_GOV_POWER_ALLOCATOR=y
+THERMAL_DEFAULT_GOV_STEP_WISE=n
+
+# large payload keys
+BIG_KEYS=n
+
+# auto choose fastest RAID6 PQ functions
+RAID6_PQ_BENCHMARK=y
+
+# remove support for non-PC x86 platforms
+X86_EXTENDED_PLATFORM=n
+
+# remove AMD support
+X86_MCE_AMD=n
+MICROCODE_AMD=n
+AMD_NUMA=n

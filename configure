@@ -1,0 +1,140 @@
+#!/bin/sh
+
+set -e
+
+WARN_UNDEF=${WARN_UNDEF:-1}
+WARN_REDUNDANT=${WARN_REDUNDANT:-1}
+WARN_DUPLICATE=${WARN_DUPLICATE:-1}
+WARN_CONFLICT=${WARN_CONFLICT:-1}
+WARN_CONFIG_PREFIX=${WARN_CONFIG_PREFIX:-1}
+
+CONFIG="./kernel/scripts/config"
+CONFIG_FILE="./kernel-config"
+
+config_cmd="${CONFIG} --file ${CONFIG_FILE}"
+
+msg() {
+    echo "$(tput bold)=>" "$@" "$(tput sgr0)" >&2
+}
+
+msg_warn() {
+    reason="$1"; shift
+    echo \
+        "$(tput bold)=>$(tput sgr0)" \
+        "$(tput setaf 3)${reason}:$(tput sgr0)" \
+        "$@" >&2
+}
+
+msg_err() {
+    reason="$1"; shift
+    echo \
+        "$(tput bold)=>$(tput sgr0)" \
+        "$(tput setaf 1)${reason}:$(tput sgr0)" \
+        "$@" >&2
+}
+
+set_option() {
+    option="$1"
+    value="$2"
+
+    if [ "${WARN_REDUNDANT}" = 1 ] &&\
+        [ "$(${config_cmd} --state "${option}")" = "${value}" ]; then
+        msg_warn "Redundant" "${option} already set to ${value}."
+    fi
+
+    case "${value}" in
+        y)
+            ${config_cmd} --enable "${option}"
+            ;;
+
+        n)
+            ${config_cmd} --disable "${option}"
+            ;;
+
+        m)
+            ${config_cmd} --module "${option}"
+            ;;
+
+        \"*\")
+            value="$(echo "${value}" | sed -e 's/^"//' -e 's/"$//')"
+            ${config_cmd} --set-str "${option}" "${value}"
+            ;;
+
+        *)
+            echo "unknown option: ${option}=${value}"
+            exit 1
+            ;;
+    esac
+}
+
+verify_option() {
+    option="$1"
+    value="$2"
+
+    if [ "$(${config_cmd} --state "${option}")" != "${value}" ]; then
+        echo "${option} not set to ${value}."
+        exit 1
+    fi
+}
+
+get_rules() {
+    filename="$1"
+
+    grep --perl-regexp --only-matching '^[^#]+=[^#]+' "${filename}" |\
+        while IFS='=' read -r option value; do
+            check_config_prefix "${option}"
+            check_duplicates "${filename}" "${option}" "${value}"
+            echo "${option}=${value}"
+        done
+}
+
+check_config_prefix() {
+    option="$1"
+    if [ "${WARN_CONFIG_PREFIX}" = 1 ]; then
+        case "${option}" in
+            CONFIG_*)
+                msg_warn "Config prefix" "${option}=${value}"
+                ;;
+        esac
+    fi
+}
+
+check_duplicates() {
+    filename="$1"
+    option="$2"
+    value="$3"
+    grep --perl-regexp "^${option}=" --exclude "${filename}" rules/* |\
+        while IFS=":=" read -r dup_file dup_option dup_value; do
+            if [ "${WARN_DUPLICATE}" = 1 ] && [ "${value}" = "${dup_value}" ]; then
+                msg_warn "Duplicate" \
+                    "In ${dup_file}: ${dup_option}."
+            elif [ "${WARN_CONFLICT}" = 1 ]; then
+                msg_err "Conflict" \
+                    "In ${dup_file}: ${dup_option}=${dup_value}."
+            fi
+        done
+}
+
+apply_rules() {
+    while IFS='=' read -r option value; do
+        set_option "${option}" "${value}"
+        verify_option "${option}" "${value}"
+    done
+}
+
+main() {
+    msg
+    msg "Configuring kernel..."
+    msg
+
+    for filename in rules/*; do
+        msg "Applying ${filename}..."
+        get_rules "${filename}" | apply_rules
+    done
+
+    msg
+    msg "Done!"
+    msg
+}
+
+main

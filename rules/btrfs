@@ -1,0 +1,11 @@
+# vim: filetype=sh:
+
+# enable btrfs kernel support
+BTRFS_FS=y
+BTRFS_FS_POSIX_ACL=y
+
+BTRFS_FS_CHECK_INTEGRITY=n
+BTRFS_FS_RUN_SANITY_TESTS=n
+BTRFS_DEBUG=n
+BTRFS_ASSERT=n
+BTRFS_FS_REF_VERIFY=n

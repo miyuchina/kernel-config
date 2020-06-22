@@ -1,0 +1,9 @@
+# vim: filetype=sh:
+
+# disable unused partition types
+OSF_PARTITION=n
+AMIGA_PARTITION=n
+SGI_PARTITION=n
+SUN_PARTITION=n
+KARMA_PARTITION=n
+MAC_PARTITION=n
