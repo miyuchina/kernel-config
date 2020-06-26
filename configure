@@ -61,8 +61,7 @@ set_option() {
             ;;
 
         *)
-            echo "unknown option: ${option}=${value}"
-            exit 1
+            ${config_cmd} --set-val "${option}" "${value}"
             ;;
     esac
 }
