@@ -36,8 +36,18 @@ THERMAL_DEFAULT_GOV_STEP_WISE=n
 # large payload keys
 BIG_KEYS=n
 
-# auto choose fastest RAID6 PQ functions
-RAID6_PQ_BENCHMARK=y
+# kernel optimizations
+PREEMPT=y
+PREEMPT_VOLUNTARY=n
+PREEMPT_TRACER=n
+SCHED_AUTOGROUP=y
+DEBUG_KERNEL=n
+
+# not using initramfs/initrd
+BLK_DEV_INITRD=n
+
+# not using raid
+RAID6_PQ_BENCHMARK=n
 
 # remove support for non-PC x86 platforms
 X86_EXTENDED_PLATFORM=n
