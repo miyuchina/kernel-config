@@ -2,9 +2,13 @@
 
 # base options; see https://github.com/gg7/gentoo-kernel-guide
 
-# processor family: Core 2 / newer Xeon
-MCORE2=y
-GENERIC_CPU=n
+# default init
+DEFAULT_INIT="/sbin/runit-init"
+
+# default kernel commandline
+CMDLINE_BOOL=y
+CMDLINE_OVERRIDE=n
+CMDLINE="root=/dev/nvme0n1p6 rootfstype=btrfs rootflags=subvol=root"
 
 # /proc/config.gz
 IKCONFIG=y
