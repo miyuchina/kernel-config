@@ -10,10 +10,14 @@ kernel-config: kernel/.config ${RULES}
 	( cd kernel && make oldconfig )
 
 kernel/.config:
-	( cd kernel && make mrproper && make defconfig )
+	( cd kernel \
+	    && git apply ../patches/* \
+	    && make mrproper \
+	    && make defconfig \
+	)
 
 clean:
-	( [ -d kernel ] && cd kernel && make mrproper )
+	( [ -d kernel ] && cd kernel && git reset --hard && make mrproper )
 	rm -f kernel-config
 
 .PHONY: all clean
