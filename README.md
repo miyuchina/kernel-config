@@ -2,6 +2,8 @@
 
 Reproducible kernel config inspired by [gg7/gentoo-kernel-guide][kernel-guide].
 
+## Configuring your kernel
+
 Define your rules (omitting `CONFIG_` prefix):
 
 ```sh
@@ -35,5 +37,18 @@ $ sudo make install
 ```
 
 You're done!
+
+## Creating and applying kernel patches
+
+Make your changes within the cloned kernel repository.
+When you're done, run:
+
+```sh
+$ git diff > ../patches/my-kernel-patch.patch
+```
+
+`make clean` will restore the repository state and discard all your changes.
+`make` will then apply all `patches/*.patch` files to a clean kernel working
+tree.
 
 [kernel-guide]: https://github.com/gg7/gentoo-kernel-guide
