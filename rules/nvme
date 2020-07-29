@@ -5,5 +5,5 @@ BLK_DEV_NVME=y
 NVME_MULTIPATH=y
 NVME_HWMON=y
 
-# no fabrics-over-tcp support
+NVME_TARGET=n
 NVME_TCP=n
