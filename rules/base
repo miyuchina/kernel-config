@@ -2,6 +2,8 @@
 
 # base options; see https://github.com/gg7/gentoo-kernel-guide
 
+LOCALVERSION="-mi"
+
 # default init
 DEFAULT_INIT="/sbin/runit-init"
 
