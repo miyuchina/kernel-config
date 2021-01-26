@@ -1,7 +1,0 @@
-# vim: filetype=sh:
-
-# -march=cannonlake
-# only available with patches/enable-march-options.patch
-
-MCANNONLAKE=y
-GENERIC_CPU=n

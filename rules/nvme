@@ -1,9 +1,0 @@
-# vim: filetype=sh:
-
-NVME_CORE=y
-BLK_DEV_NVME=y
-NVME_MULTIPATH=y
-NVME_HWMON=y
-
-NVME_TARGET=n
-NVME_TCP=n
